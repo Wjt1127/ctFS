@@ -1335,8 +1335,11 @@ static int dax_pswap(unsigned long ufirst, unsigned long usecond, unsigned long 
 	/* assingment */
 
 	mm = current->mm;
-	
-	vma = find_vma(current->mm, ufirst);
+
+	/* find_vma()用来寻找一个针对于指定地址的vma，该vma要么包含了指定的地址，
+	 * 要么位于该地址之后并且离该地址最近，或者说寻找第一个满足addr < vma_end的vma
+	 */
+	vma = find_vma(current->mm, ufirst); 
 #if PSWAP_DEBUG > 1
 		printk("PSWAP: PID: %d  %#lx <-> %#lx  npgs: %lu\n",
 			current->pid , ufirst, usecond, npgs);
